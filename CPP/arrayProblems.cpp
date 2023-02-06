@@ -1,7 +1,9 @@
 #include <algorithm>
 #include <iostream>
 #include <map>
+#include <numeric>
 #include <queue>
+#include <string>
 #include <unordered_map>
 #include <vector>
 
@@ -105,8 +107,27 @@ class Solution {
         }
         return false;
     }
+
+    // 4. Product of Array Except Self
+    // Given an integer array, return a results array that countains
+    // the product of all numbers in array except the number itself
+    // division not allowed
+    static vector<int> productExceptSelf(vector<int> &nums) {
+        // if division was allowed this could be used to calculate the total product
+        // int product = accumulate(nums.begin(), nums.end(), 1, [](int x, int y){ return x * y; });
+        vector<int> answer(size(nums), 1);  // init vector with all 1s
+        for (int i = 1; i < size(nums); i++)
+            answer[i] = answer[i - 1] * nums[i - 1];
+        int postfix = 1;
+        for (int i = size(nums) - 1; i >= 0; i--) {
+            answer[i] *= postfix;
+            postfix *= nums[i];
+        }
+        return answer;
+    }
 };
 
+// for testing
 int main() {
     // Test for 1. Two Sum
     cout << "Test for Two Sum:" << endl;
@@ -129,6 +150,15 @@ int main() {
     cout << "Test for Contains Duplciate:" << endl;
     vector<int> nums{1, 2, 3, 1};
     cout << (Solution::containsDuplicate(nums) ? "Duplicate Found" : "No Duplicate Found");
+    cout << endl
+         << "-----" << endl;
+
+    // Test for 4. Product of Array Except Self
+    cout << "Test for Product of Array Except Self:" << endl;
+    vector<int> nums2{1, 2, 3, 4};
+    for (auto val : Solution::productExceptSelf(nums2)) {
+        cout << val << " ";
+    }
     cout << endl
          << "-----" << endl;
 

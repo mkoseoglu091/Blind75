@@ -52,7 +52,25 @@ class Solution(object):
             else:
                 k.add(num)
 
+    # 4. Product of Array Except Self
+    def productExceptSelf(self, nums):
+        """
+        :type nums: List[int]
+        :rtype: List[int]
+        """
+        answer = [1] * (len(nums))
+        prefix = 1
+        for i in range(len(nums)):
+            answer[i] = prefix
+            prefix *= nums[i]
+        postfix = 1
+        for i in range(len(nums)-1, -1, -1):
+            answer[i] *= postfix
+            postfix *= nums[i]
+        return answer
+
     # Tests
+
     def main(self):
         # Test for Two Sum
         print("Test for Two Sum")
@@ -69,10 +87,16 @@ class Solution(object):
         print("result:", self.maxProfit([7, 1, 5, 3, 6, 4]))
         print("-"*10)
 
-        # Test for
+        # Test for Contains Duplicate
         print("Test for Contains Duplicate")
         l = [1, 2, 3, 1]
         print("result:", self.containsDuplicate(l))
+        print("-"*10)
+
+        # Test for Product of Array Except Self
+        print("Test for Product of Array Except Self")
+        l = [1, 2, 3, 4]
+        print("result:", self.productExceptSelf(l))
         print("-"*10)
 
 
